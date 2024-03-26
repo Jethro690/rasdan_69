@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #004225;
+}
+
+header {
+    background-color: #3C281E;
+    color: #d4bf79;
+    text-align: center;
+    padding: 1em 0;
+    border-style: solid;
+    border-width: thick;
+    border-color: #d4bf79;
+}
+
+footer {
+    background-color: #3C281E;
+    color: #d4bf79;
+    text-align: center;
+    padding: 1em 0;
+    border-style: solid;
+    border-width: thick;
+    border-color: #d4bf79;
+}
+
+section {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #3C281E;
+    border-style: solid;
+    border-width: thick;
+    border-color: #d4bf79;
+
+}
+
+h2 {
+    color: #d4bf79;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    color: #d4bf79
+}
+
+li {
+    margin-bottom: 20px;
+    /* Add space between each listing */
+    color: #d4bf79
+}
+
+.plant-box {
+    border: 1px solid #d4bf79;
+    /* Border style */
+    padding: 10px;
+    /* Add padding inside the box */
+    border-radius: 8px;
+    /* Optional: Add rounded corners to the box */
+}
+
+.product-image {
+    max-width: 50%;
+    height: auto;
+    display: block; /* This ensures the images won't have extra space below them */
+    margin: 0 auto; /* Center the images within their container */
+    border: 2px solid #d4bf79; /* Add a solid border with a color */
+    border-radius: 8px; /* Optional: Add rounded corners to the border */
+}
+
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    max-width: 50%;
+    height: auto;
+    display: block;
+    /* This ensures the images won't have extra space below them */
+    margin: 0 auto;
+    /* Center the images within their container */
+}
