@@ -4,85 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@rasdan_69's Little Store</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color:#004225;
-        }
-
-        header {
-            background-color: #3C281E;
-            color: #d4bf79;
-            text-align: center;
-            padding: 1em 0;
-            border-style: solid;
-            border-width: thick;
-            border-color: #d4bf79; 
-        }
-
-        footer {
-            background-color: #3C281E;
-            color: #d4bf79;
-            text-align: center;
-            padding: 1em 0;
-            border-style: solid;
-            border-width: thick;
-            border-color: #d4bf79; 
-        }
-
-        section {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #3C281E;
-            border-style: solid;
-            border-width: thick;
-            border-color: #d4bf79; 
-
-        }
-
-        h2 {
-            color: #d4bf79;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            color: #d4bf79
-        }
-
-        li {
-            margin-bottom: 20px; /* Add space between each listing */
-            color: #d4bf79
-        }
-
-        .plant-box {
-            border: 1px solid #d4bf79; /* Border style */
-            padding: 10px; /* Add padding inside the box */
-            border-radius: 8px; /* Optional: Add rounded corners to the box */
-        }
-
-
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-        img {
-            max-width: 50%;
-            height: auto;
-            display: block; /* This ensures the images won't have extra space below them */
-            margin: 0 auto; /* Center the images within their container */
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <h1>🪴🌵Little Store🌵🪴</h1>
@@ -111,54 +35,67 @@
         <h2>Items for Sale</h2>
         <ul id="product-list"></ul>
         <script>
-          // Function to load and display product data
-          function loadProducts() {
-            const productList = document.getElementById('product-list');
-      
-            // Assuming all product files have the .html extension
-            const productFiles = [
-              'croucheri.html',
-              'williamsii.html',
-              'caespitose.html',
-              'grtc.html',
-              'grusonii.html',
-              'heinzii.html',
-              'jourdaniana.html',
-              'mtc.html',
-              'pere.html',
-              'salvia.html',
-              'tricho.html',
-              'bruchii.html',
-              'penis.html',
-              'tortuosum.html',
-              'speciosa.html'
-              /* ... other product files */
-            ];
-      
-            productFiles.forEach(file => {
-            fetch(`products/${file}`)
-                .then(response => response.text())
-                .then(data => {
-                    const parser = new DOMParser();
-                    const htmlDoc = parser.parseFromString(data, 'text/html');
-                    const availability = htmlDoc.querySelector('.availability');
-                    
-                    // Check availability and display/hide product accordingly
-                    if (availability.classList.contains('available')) {
-                        const productItem = document.createElement('li');
-                        productItem.innerHTML = data;
-                        productList.appendChild(productItem);
-                    }
-                })
-                .catch(error => console.error('Error loading product:', error));
-            });
-          }
-      
+            // Function to load and display product data
+            function loadProducts() {
+                const productList = document.getElementById('product-list');
 
-      
-          // Call the loadProducts function to populate the list
-          loadProducts();
-      
+                // Assuming all product files have the .html extension
+                const productFiles = [
+                    'croucheri.html',
+                    'williamsii.html',
+                    'caespitose.html',
+                    'grtc.html',
+                    'grusonii.html',
+                    'heinzii.html',
+                    'jourdaniana.html',
+                    'mtc.html',
+                    'pere.html',
+                    'salvia.html',
+                    'tricho.html',
+                    'bruchii.html',
+                    'penis.html',
+                    'tortuosum.html',
+                    'speciosa.html'
+                    /* ... other product files */
+                ];
+
+                productFiles.forEach(file => {
+                    fetch(`products/${file}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            const parser = new DOMParser();
+                            const htmlDoc = parser.parseFromString(data, 'text/html');
+                            const availability = htmlDoc.querySelector('.availability');
+
+                            // Check availability and display/hide product accordingly
+                            if (availability.classList.contains('available')) {
+                                const productItem = document.createElement('li');
+                                productItem.innerHTML = data;
+                                productList.appendChild(productItem);
+
+                                // Replace the thumbnail source with the one from thumb-images directory
+                                const thumbnails = productItem.querySelectorAll('.thumbnail');
+                                thumbnails.forEach(thumbnail => {
+                                    const originalSrc = thumbnail.getAttribute('src');
+                                    const thumbnailSrc = originalSrc.replace('/images/', '/thumb-images/'); // Assuming the original images are in 'images' directory
+                                    thumbnail.setAttribute('src', thumbnailSrc);
+
+                                    // Add event listener to each thumbnail to open full-size image in new tab
+                                    thumbnail.addEventListener('click', function () {
+                                        const fullSizeImageURL = this.getAttribute('data-fullsize-url');
+                                        window.open(fullSizeImageURL, '_blank');
+                                    });
+                                });
+                            }
+                        })
+                        .catch(error => console.error('Error loading product:', error));
+                });
+            }
+
+
+            // Call the loadProducts function to populate the list
+            loadProducts();
+
 
         </script>
     </section>
@@ -168,4 +105,5 @@
     </footer>
 
 </body>
+
 </html>
