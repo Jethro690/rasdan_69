@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@rasdan_69's Little Store</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,
+        <svg
+            xmlns='http://www.w3.org/2000/svg' width='16' height='16'>
+            <text x='0' y='12' font-size='12'>🌵</text>
+        </svg>"
+    >
 </head>
 
 <body>
@@ -15,18 +21,17 @@
     <section>
         <h2>How It Works</h2>
         <ul>
-            Have a look whats available on this page. See what you like?
+            <li>Have a look at what's available on this page. See what you like?</li>
+            <li>Message me on WhatsApp or Instagram. Then we can set up an invoice and PUDO. 🥰</li>
+            <li>Get your pull!</li>
+            <li>🇿🇦 South Africa only 🇿🇦</li>
         </ul>
-        <ul>Message me on WhatsApp or Instagram. Then we can set up invoice and PUDO. 🥰</ul>
-        <ul>Get your pull!</ul>
-        <ul>🇿🇦 South Africa only 🇿🇦</ul>
     </section>
 
     <section>
         <h2>Contact Details</h2>
         <ul>
-            <!-- <li>Email: your@email.com</li> -->
-            <li>WhatsApp: 0643201946</li>
+            <li>WhatsApp: <a href="https://wa.me/27643201946" target="_blank">0643201946</a></li>
             <li>Instagram: <a href="https://www.instagram.com/rasdan_69" target="_blank">@rasdan_69</a></li>
         </ul>
     </section>
@@ -35,11 +40,11 @@
         <h2>Items for Sale</h2>
         <ul id="product-list"></ul>
         <script>
-            // Function to load and display product data
             function loadProducts() {
                 const productList = document.getElementById('product-list');
-
-                // Assuming all product files have the .html extension
+                const availableItems = [];
+                const unavailableItems = [];
+        
                 const productFiles = [
                     'croucheri.html',
                     'williamsii.html',
@@ -56,47 +61,36 @@
                     'penis.html',
                     'tortuosum.html',
                     'speciosa.html'
-                    /* ... other product files */
                 ];
-
-                productFiles.forEach(file => {
+        
+                Promise.all(productFiles.map(file => 
                     fetch(`products/${file}`)
                         .then(response => response.text())
                         .then(data => {
                             const parser = new DOMParser();
                             const htmlDoc = parser.parseFromString(data, 'text/html');
+                            const productItem = document.createElement('li');
+                            productItem.innerHTML = data;
+        
                             const availability = htmlDoc.querySelector('.availability');
-
-                            // Check availability and display/hide product accordingly
-                            if (availability.classList.contains('available')) {
-                                const productItem = document.createElement('li');
-                                productItem.innerHTML = data;
-                                productList.appendChild(productItem);
-
-                                // Replace the thumbnail source with the one from thumb-images directory
-                                const thumbnails = productItem.querySelectorAll('.thumbnail');
-                                thumbnails.forEach(thumbnail => {
-                                    const originalSrc = thumbnail.getAttribute('src');
-                                    const thumbnailSrc = originalSrc.replace('/images/', '/thumb-images/'); // Assuming the original images are in 'images' directory
-                                    thumbnail.setAttribute('src', thumbnailSrc);
-
-                                    // Add event listener to each thumbnail to open full-size image in new tab
-                                    thumbnail.addEventListener('click', function () {
-                                        const fullSizeImageURL = this.getAttribute('data-fullsize-url');
-                                        window.open(fullSizeImageURL, '_blank');
-                                    });
-                                });
+        
+                            if (availability && availability.classList.contains('unavailable')) {
+                                productItem.classList.add('unavailable'); // Apply CSS class
+                                unavailableItems.push(productItem);
+                            } else {
+                                availableItems.push(productItem);
                             }
                         })
-                        .catch(error => console.error('Error loading product:', error));
+                        .catch(error => console.error('Error loading product:', error))
+                )).then(() => {
+                    // Append available items first
+                    availableItems.forEach(item => productList.appendChild(item));
+                    // Then append unavailable items
+                    unavailableItems.forEach(item => productList.appendChild(item));
                 });
             }
-
-
-            // Call the loadProducts function to populate the list
+        
             loadProducts();
-
-
         </script>
     </section>
 
@@ -105,5 +99,4 @@
     </footer>
 
 </body>
-
 </html>
