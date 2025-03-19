@@ -90,3 +90,13 @@ img {
     margin: 0 auto;
     /* Center the images within their container */
 }
+.unavailable {
+    opacity: 0.5;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(0, 0, 0, 0.1) 10px,
+        rgba(0, 0, 0, 0.1) 20px
+    );
+}
